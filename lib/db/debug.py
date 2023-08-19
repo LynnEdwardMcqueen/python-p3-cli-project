@@ -2,7 +2,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db/models import Recipe
+from models import Recipe
 
 if __name__ == '__main__':
     engine = create_engine('sqlite:///recipes.db')
