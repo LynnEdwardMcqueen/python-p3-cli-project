@@ -11,5 +11,11 @@ class Recipe(Base):
 
     id = Column(Integer(), primary_key=True)
     recipe_title = Column(String())
+    vegetables_and_fruit = Column(Integer())
+    breads_and_cereals = Column(Integer())
+    dairy = Column(Integer())
+    meat = Column(Integer())
+    fats_and_sugar = Column(Integer())
+
 
 
