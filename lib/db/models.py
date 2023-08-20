@@ -17,6 +17,7 @@ class Recipe(Base):
     meat = Column(Integer())
     fats_and_sugar = Column(Integer())
     instructions = relationship('Instruction', backref=backref('recipe'))
+    ingredients = relationship('Ingredient', backref=backref('ingredient'))
 
 class Instruction(Base):
     __tablename__ = 'instruction'
