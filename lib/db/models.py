@@ -25,4 +25,12 @@ class Instruction(Base):
     instruction = Column(String())
     recipe_id = Column(Integer(), ForeignKey('recipe.id'))
 
+class Ingredient(Base):
+
+    __tablename__ = 'ingredient'
+
+    id = Column(Integer(), primary_key=True)
+    ingredient = Column(String())
+    recipe_id = Column(Integer(), ForeignKey('recipe.id'))
+
 
