@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -16,6 +16,13 @@ class Recipe(Base):
     dairy = Column(Integer())
     meat = Column(Integer())
     fats_and_sugar = Column(Integer())
+    instructions = relationship('Instruction', backref=backref('recipe'))
 
+class Instruction(Base):
+    __tablename__ = 'instruction'
+
+    id = Column(Integer(), primary_key=True)
+    instruction = Column(String())
+    recipe_id = Column(Integer(), ForeignKey('recipe.id'))
 
 
