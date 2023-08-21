@@ -31,7 +31,10 @@ class Ingredient(Base):
     __tablename__ = 'ingredient'
 
     id = Column(Integer(), primary_key=True)
+    measurement_amount = Column(String())
+    measurement_unit = Column(String())
     ingredient = Column(String())
     recipe_id = Column(Integer(), ForeignKey('recipe.id'))
+
 
 
