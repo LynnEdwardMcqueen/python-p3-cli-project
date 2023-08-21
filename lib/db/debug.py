@@ -16,8 +16,7 @@ if __name__ == '__main__':
         dairy = 0,
         meat = 1,
         fats_and_sugar = 1,
-        instructions = None,
-        ingredients = None,)
+    )
     
     session.add(recipe1)
     session.commit()

@@ -7,7 +7,7 @@ engine = create_engine('sqlite:///recipes.db')
 Base = declarative_base()
 
 class Recipe(Base):
-    __tablename__ = 'recipe'
+    __tablename__ = 'recipes'
 
     id = Column(Integer(), primary_key=True)
     recipe_title = Column(String())
@@ -20,21 +20,21 @@ class Recipe(Base):
     # ingredients = relationship('Ingredient', backref=backref('ingredient'))
 
 class Instruction(Base):
-    __tablename__ = 'instruction'
+    __tablename__ = 'instructions'
 
     id = Column(Integer(), primary_key=True)
     instruction = Column(String())
-    recipe_id = Column(Integer(), ForeignKey('recipe.id'))
+    recipe_id = Column(Integer(), ForeignKey('recipes.id'))
 
 class Ingredient(Base):
 
-    __tablename__ = 'ingredient'
+    __tablename__ = 'ingredients'
 
     id = Column(Integer(), primary_key=True)
     measurement_amount = Column(String())
     measurement_unit = Column(String())
     ingredient = Column(String())
-    recipe_id = Column(Integer(), ForeignKey('recipe.id'))
+    recipe_id = Column(Integer(), ForeignKey('recipes.id'))
 
 
 
