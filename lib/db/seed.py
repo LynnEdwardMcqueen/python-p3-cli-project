@@ -5,6 +5,8 @@ from models import Recipe, Ingredient, Instruction
 
     
 
+# This contains all the information necessary for the Recipe, Instruction,
+# and Ingredient tables in the recipes.db database.
 recipe_preload = (
     (
         ("Creamy Chicken Pesto Pasta", 1, 1, 1, 0, 0),
@@ -200,7 +202,18 @@ if __name__ == '__main__':
     engine = create_engine('sqlite:///recipes.db')
     Session = sessionmaker(bind=engine)
     session = Session()
+    recipe_list = session.query(Recipe).all()
+    
+	# This for loop sets the "recipe_is_active" to True for each recipe.
+    for individual_recipe in recipe_list:
+        individual_recipe.recipe_is_active = True
+        session.add(individual_recipe)
+        session.commit()
+        print(individual_recipe)
 
+"""
+	# This for loop transfers the information in the recipe_preload tuple
+    # to the recipes.db database.
     for current_recipe in recipe_preload:
         recipe_data = current_recipe[0]
 
@@ -230,6 +243,9 @@ if __name__ == '__main__':
                 recipe_id = recipe.id)            
             session.add(ingredient_row)
             session.commit()
+    """
+        
+
 
 
 
