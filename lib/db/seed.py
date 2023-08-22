@@ -1,5 +1,9 @@
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from models import Recipe, Ingredient, Instruction
 
 
+    
 
 recipe_preload = (
     (
@@ -98,7 +102,7 @@ recipe_preload = (
         )
    ),
    (
-	    ("Black Bean Taco Soup", 1,0,1,0),
+	    ("Black Bean Taco Soup",1, 1,0,1,0),
 	    (
             "Brown meat and onion, drain.",
 	        "Stir in taco seasoning, corn, black beans, tomatoes, tomato sauce, and green chilis. Simmer on low heat for 20 to 30 minutes."
@@ -183,7 +187,7 @@ recipe_preload = (
 	        ("1", "lb.", "ground beef"),
 	        ("1", "t", "salt"),
 	        ("1/4", "t", "pepper"),
-	        ("10.5", "oz." "can cream of mushroom soup"),
+	        ("10.5", "oz.", "can cream of mushroom soup"),
 	        ("1", "T", "Flour"),
 	        ("3", "C", "beef broth"),
 	        ("3", "C", "egg noodles uncooked"),
@@ -192,4 +196,37 @@ recipe_preload = (
     )
 ) 
 
-print(recipe_preload)
+if __name__ == '__main__':
+    engine = create_engine('sqlite:///recipes.db')
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    for current_recipe in recipe_preload:
+        recipe_data = current_recipe[0]
+
+        recipe = Recipe(recipe_title = recipe_data[0],
+            vegetables_and_fruit = recipe_data[1],
+            breads_and_cereals = recipe_data[2],
+            dairy = recipe_data[3],
+            meat = recipe_data[4],
+            fats_and_sugar = recipe_data[5]
+            )
+        
+        print(recipe)
+        print("")
+
+        for instruction in current_recipe[1]:
+            instruction_row = Instruction(instruction = instruction,
+                recipe_id = recipe.id)
+            print(instruction_row)
+            print("")
+
+        for ingredient in current_recipe[2]:
+            ingredient_row = Ingredient(measurement_amount = ingredient[0],
+                measurement_unit = ingredient[1],
+                ingredient = ingredient[2],
+                recipe_id = recipe.id)            
+            print(ingredient_row)
+            print("")
+
+
