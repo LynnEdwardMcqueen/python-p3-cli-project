@@ -1,5 +1,6 @@
 
 
+
 recipe_preload = (
     (
         ("Creamy Chicken Pesto Pasta", 1, 1, 1, 0, 0),
@@ -24,7 +25,7 @@ recipe_preload = (
         ),
     ),
     (
-	    ("Garlic Pork Stir-Fry", 1,0,0,1,0)
+	    ("Garlic Pork Stir-Fry", 1,0,0,1,0),
 	    (
             "Rinse and trim pork loin as desired. Cut pork into about 1-inch cubes.",
 	        "In a medium bowl, whisk together soy sauce, vinegar, and sugar. Whisk in the garlic and crushed red pepper.",
@@ -47,31 +48,31 @@ recipe_preload = (
         )
     ),
     (
-	    ("Instant Pot Chicken Noodle Soup", 1, 1, 0, 1, 0)
+	    ("Instant Pot Chicken Noodle Soup", 1, 1, 0, 1, 0),
 	    (
             "On Instant Pot, press saute button. After 1 minute, add olive oil to IP insert. Wait 1 minute, then add onion and garlic. Saute, stirring often, for 1 minute. Add carrots and celery and saute for 2 minutes. Add diced chicken and Italian seasoning and cook, stirring often, until almost done.",
 	        "Add remaining ingredients, making sure the noodles are just covered with liquid.",
 	        "Cover the IP with lid and set the pressure valve to sealing position. Newer models do it on their own.",
-	        "Press manual and set the timer to 6 minutes. Make sure your Instant Pot is set to high pressure. The pressure cooker will beep and start coming to pressure, which can take about 12 minutes.  When the cooking time is up, press the "cancel/off" button. Let the pressure release naturally for 5 minutes (to let the foam from cooking noodles to fall)", 
+	        "Press manual and set the timer to 6 minutes. Make sure your Instant Pot is set to high pressure. The pressure cooker will beep and start coming to pressure, which can take about 12 minutes.  When the cooking time is up, press the cancel/off button. Let the pressure release naturally for 5 minutes (to let the foam from cooking noodles to fall)", 
 	        "then quick release any remaining pressure by switching the valve to venting position.",
 	        "Carefully open the lid, away from your face. Stir the soup. Let cool and serve. Adjust seasoning as needed"
 	    ),
 	    (
             ("1", "t", "olive oil"),
-        	("3", , "garlic cloves minced"),
+        	("3", None, "garlic cloves minced"),
 	        ("1", "C", "chopped yellow onion"),
-	        ("2", , "boneless skinless chicken breast cut into 1 inch cubes"),
+	        ("2", None, "boneless skinless chicken breast cut into 1 inch cubes"),
 	        ("2", "t", "Italian seasoning or fresh poultry herb blend"),
 	        ("2", "C", "diced carrots"),
-            ("4", , "celery ribs diced"),
+            ("4", None, "celery ribs diced"),
 	        ("3", "C", "wide egg noodles dry, not yet cooked"),
 	        ("4", "C", "chicken stock or broth"),
-	        ("3", "C", "water");
+	        ("3", "C", "water"),
 	        ("1", "t", "dried oregano"),
 	    )
     ),
     (
-        ("Instant Pot Creamy Italian Pasta", 0, 1, 1,0, 0)
+        ("Instant Pot Creamy Italian Pasta", 0, 1, 1,0, 0),
         (
             "Pour the broth into the inner pot. Stir in the wine, garlic, oregano, pepper, black pepper, and crushed red pepper flakes, if using.",
             "Pour the pasta into the inner pot. gently pushing down to submerge in the broth. Then top the dry pasta with the diced tomatoes and spaghetti sauce, spreading to evenly cover the pasta. Dollop with ricotta cheese, if using.",
@@ -189,5 +190,6 @@ recipe_preload = (
 	        ("1", "C", "sour cream")
 	    )
     )
-)
- 
+) 
+
+print(recipe_preload)
