@@ -212,21 +212,24 @@ if __name__ == '__main__':
             fats_and_sugar = recipe_data[5]
             )
         
-        print(recipe)
-        print("")
+        session.add(recipe)
+        session.commit()
+    
 
         for instruction in current_recipe[1]:
             instruction_row = Instruction(instruction = instruction,
                 recipe_id = recipe.id)
-            print(instruction_row)
-            print("")
+
+            session.add(instruction_row)
+            session.commit()
 
         for ingredient in current_recipe[2]:
             ingredient_row = Ingredient(measurement_amount = ingredient[0],
                 measurement_unit = ingredient[1],
                 ingredient = ingredient[2],
                 recipe_id = recipe.id)            
-            print(ingredient_row)
-            print("")
+            session.add(ingredient_row)
+            session.commit()
+
 
 
