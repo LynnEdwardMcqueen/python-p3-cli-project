@@ -16,9 +16,18 @@ class Recipe(Base):
     dairy = Column(Integer())
     meat = Column(Integer())
     fats_and_sugar = Column(Integer())
-    reviews = relationship('Review', backref=backref('game'))
     instructions = relationship('Instruction', backref=backref('recipe'))
     ingredients = relationship('Ingredient', backref=backref('recipe'))
+
+    def __repr__(self):
+        return f'Recipe (id={self.id}, ' + \
+            f'recipe_title = {self.recipe_title}, ' + \
+            f'veggies_and_fruit = {self.vegetables_and_fruit}, ' +\
+            f'breads = {self.breads_and_cereals}, ' +\
+            f'dairy = {self.dairy}, ' +\
+            f'meat = {self.meat}, ' +\
+            f'fats_and_sugar = {self.fats_and_sugar}, ' 
+    
 
 class Instruction(Base):
     __tablename__ = 'instructions'
@@ -26,6 +35,11 @@ class Instruction(Base):
     id = Column(Integer(), primary_key=True)
     instruction = Column(String())
     recipe_id = Column(Integer(), ForeignKey('recipes.id'))
+
+    def __repr__(self):
+        return f'Instruction (id = {self.id})' +\
+            f'recipe_id = {self.recipe_id}' +\
+            f'instruction = {self.instruction}'
 
 class Ingredient(Base):
 
@@ -36,6 +50,14 @@ class Ingredient(Base):
     measurement_unit = Column(String())
     ingredient = Column(String())
     recipe_id = Column(Integer(), ForeignKey('recipes.id'))
+
+    def __repr__(self):
+        return f'Ingredient (id = {self.id}) ' +\
+            f'recipe_id = {self.recipe_id} ' +\
+            f'measurement_amount = {self.measurement_amount} ' +\
+            f'measurement_unit = {self.measurement_unit} ' +\
+            f'ingredient = {self.ingredient} '
+
 
 
 
