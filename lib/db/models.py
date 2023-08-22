@@ -16,6 +16,7 @@ class Recipe(Base):
     dairy = Column(Integer())
     meat = Column(Integer())
     fats_and_sugar = Column(Integer())
+    recipe_is_active = Column(Integer())
     instructions = relationship('Instruction', backref=backref('recipe'))
     ingredients = relationship('Ingredient', backref=backref('recipe'))
 
@@ -26,7 +27,11 @@ class Recipe(Base):
             f'breads = {self.breads_and_cereals}, ' +\
             f'dairy = {self.dairy}, ' +\
             f'meat = {self.meat}, ' +\
-            f'fats_and_sugar = {self.fats_and_sugar}, ' 
+            f'fats_and_sugar = {self.fats_and_sugar}, ' +\
+            f'recipe_is_active = {self.recipe_is_active}'
+
+
+            
     
 
 class Instruction(Base):
