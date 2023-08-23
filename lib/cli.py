@@ -36,7 +36,9 @@ def listrecipes(alpha):
 @click.argument("ingredient", nargs = 1)
 @cli.command()
 def matchingingredient(ingredient):
-    recipe_list = help.get_matching_ingredient(ingredient)
+    recipe_list = help.get_recipe_matching_ingredient(ingredient)
+    click.echo(f"Recipes with {ingredient} as an ingredient: ")
+    display_recipe_list(recipe_list)
 
 
 def display_recipe(recipe_info):

@@ -13,16 +13,19 @@ class Helper:
         self.session = self.Session()
 
 
-    def get_matching_ingredient(self, search_ingredient):
+    def get_recipe_matching_ingredient(self, search_ingredient):
         matching_recipes = self.session.query(Ingredient.recipe_id).filter(Ingredient.ingredient.like(f'%{search_ingredient}%')).all()
 
         # There is a possibility that some ingredients are used multiple times in a recipe.  Putting the values into a set
         # will eliminate redundant values.
         matching_recipe_set = set(matching_recipes)
-        print(f"The matching recipes are {matching_recipe_set}")
         # Now that any redundant recipes are eliminated, remake the list and sort it.
         matching_recipes = list(matching_recipe_set)
+        # The database returns everything as tuples.  Extract the recipe_id's and make a new list of them
+        matching_recipes = [recipe[0] for recipe in matching_recipes]
         matching_recipes.sort()
+        return_value =self.get_selected_recipes_list(matching_recipes)
+        return(return_value)
 
     #
     # This routine takes the recipe_ids and returns a list of all the ingredients associated with the recipes.
