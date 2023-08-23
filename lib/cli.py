@@ -5,14 +5,14 @@ import click
 def cli():
     pass    
 
-@click.argument("recipe_ids", nargs = -1)
+@click.argument("recipe_id", nargs = 1)
 @cli.command()
-def displayrecipes(recipe_ids):
-    click.echo(f"The recip_numbers = {recipe_ids}")
+def displayrecipe(recipe_id):
+    
     # Click sends all arguments as tuple of strings.  They need to be converted to
     # integers
-    int_recipe_ids = [int(str_id) for str_id in recipe_ids ]
-    click.echo(f"The real recipe indices are {int_recipe_ids}")
+    click.echo(f"The recipe id is {recipe_id}")
+    Helper.get_selected_recipe(int(recipe_id))
 
 @click.option("-a", "--alpha", is_flag = True, show_default = True, default = 0)
 @cli.command()
