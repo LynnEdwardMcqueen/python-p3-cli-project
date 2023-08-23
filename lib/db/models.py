@@ -3,7 +3,9 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('sqlite:///recipes.db')
+print("Starting Engine")
+# engine = create_engine('sqlite:///recipes.db', echo = True)
+print("Engine created")
 Base = declarative_base()
 
 class Recipe(Base):
