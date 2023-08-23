@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func, column
 from sqlalchemy.orm import sessionmaker
 from db.models import Recipe, Ingredient, Instruction 
 import ipdb
@@ -11,6 +11,27 @@ class Helper:
         self.engine = create_engine('sqlite:///db/recipes.db')
         self.Session = sessionmaker(bind=self.engine)
         self.session = self.Session()
+        self.food_pyramid_entries = ["vegetables_and_fruit", "breads_and_cereals", "dairy", "meat", "fats_and_sugar"]
+
+    def get_pyramid_information(self, recipe_list):
+        food_pyramid_dictionary = {}
+
+        # Initialize all category entries to 0
+        for category in self.food_pyramid_entries:
+            food_pyramid_dictionary[category] = 0
+        
+        for recipe_id in recipe_list:
+            food_results = self.session.query(Recipe.vegetables_and_fruit, Recipe.breads_and_cereals,Recipe.dairy, Recipe.meat, Recipe.fats_and_sugar)\
+                .filter(Recipe.id == recipe_id).all()
+            
+           
+            # Update the food pyramid dictionary.  The database returns a list of tuples.  Since the tuple with the column results is the only item
+            # in the list, food_results[0][i] is used to retrieve each individual result.
+            i = 0
+            for category in self.food_pyramid_entries:
+                food_pyramid_dictionary[category] += food_results[0][i]
+                i += 1
+        return food_pyramid_dictionary
 
 
     def get_recipe_matching_ingredient(self, search_ingredient):

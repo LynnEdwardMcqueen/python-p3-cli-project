@@ -40,6 +40,21 @@ def matchingingredient(ingredient):
     click.echo(f"Recipes with {ingredient} as an ingredient: ")
     display_recipe_list(recipe_list)
 
+@click.argument("recipe_list", nargs = -1)
+@cli.command()
+def showpyramidinfo(recipe_list):
+    recipe_list = [int(recipe) for recipe in recipe_list]
+    click.echo("Food Pyramid Info For:")
+    recipe_info = help.get_selected_recipes_list(recipe_list)
+    display_recipe_list(recipe_info)
+    
+    click.echo("\nFood Pyramid Data:")
+    pyramid_result_dictionary = help.get_pyramid_information(recipe_list)
+    for category in help.food_pyramid_entries:
+        click.echo(f"{category} - {pyramid_result_dictionary[category]}")
+
+
+
 
 def display_recipe(recipe_info):
     # Print the recipe title
