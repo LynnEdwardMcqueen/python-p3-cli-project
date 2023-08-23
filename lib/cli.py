@@ -1,6 +1,8 @@
 from helpers import Helper
 import click
 
+help = Helper()
+
 @click.group()
 def cli():
     pass    
@@ -11,8 +13,8 @@ def createshoppinglist(recipe_ids):
     # The arguments are sent in a tuple as strings.  Need to be converted
     # to ints
     shopping_ids = [int(recipe_id) for recipe_id in recipe_ids]
-    shopping_list = Helper.get_shopping_list(shopping_ids)
-    recipes_list = Helper.get_selected_recipes_list(shopping_ids)
+    shopping_list = help.get_shopping_list(shopping_ids)
+    recipes_list = help.get_selected_recipes_list(shopping_ids)
     display_shopping_list(recipes_list, shopping_list)
 
 
@@ -22,15 +24,19 @@ def displayrecipe(recipe_id):
     
     # Click sends all arguments as strings.  The recipe_id needs to be converted to
     # integers
-    recipe_info = Helper.get_selected_recipe(int(recipe_id))
+    recipe_info = help.get_selected_recipe(int(recipe_id))
     display_recipe(recipe_info)
 
 @click.option("-a", "--alpha", is_flag = True, show_default = True, default = 0)
 @cli.command()
 def listrecipes(alpha):
-    recipe_list = Helper.get_recipe_list(alpha)
+    recipe_list = help.get_recipe_list(alpha)
     display_recipe_list(recipe_list)
 
+@click.argument("ingredient", nargs = 1)
+@cli.command()
+def matchingingredient(ingredient):
+    recipe_list = help.get_matching_ingredient(ingredient)
 
 
 def display_recipe(recipe_info):
