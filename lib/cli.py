@@ -5,20 +5,29 @@ import click
 def cli():
     pass    
 
+@click.argument("recipe_ids", nargs = -1)
+@cli.command()
+def createshoppinglist(recipe_ids):
+    # The arguments are sent in a tuple as strings.  Need to be converted
+    # to ints
+    shopping_ids = [int(recipe_id) for recipe_id in recipe_ids]
+    shopping_list = Helper.get_shopping_list(shopping_ids)
+    recipes_list = Helper.get_selected_recipes_list(shopping_ids)
+    display_shopping_list(recipes_list, shopping_list)
+
+
 @click.argument("recipe_id", nargs = 1)
 @cli.command()
 def displayrecipe(recipe_id):
     
-    # Click sends all arguments as tuple of strings.  They need to be converted to
+    # Click sends all arguments as strings.  The recipe_id needs to be converted to
     # integers
-    click.echo(f"The recipe id is {recipe_id}")
     recipe_info = Helper.get_selected_recipe(int(recipe_id))
     display_recipe(recipe_info)
 
 @click.option("-a", "--alpha", is_flag = True, show_default = True, default = 0)
 @cli.command()
 def listrecipes(alpha):
-    click.echo(f"Here in listrecipes, alpha = {alpha}")
     recipe_list = Helper.get_recipe_list(alpha)
     display_recipe_list(recipe_list)
 
@@ -28,7 +37,6 @@ def display_recipe(recipe_info):
     # Print the recipe title
     click.echo(f"Recipe Title:  {recipe_info[0][0]}")
     click.echo("\nIngredients")
-#    click.echo(recipe_info[1])
     display_recipe_ingredients(recipe_info[1])
     click.echo("\nInstructions")
     display_recipe_instructions(recipe_info[2])
@@ -52,7 +60,7 @@ def display_recipe_ingredients(ingredients_info):
         click.echo(ingredient_string)
 
 #
-# instruction_info is a list of tuples that contain the step by step instructins for the recipe.
+# instruction_info is a list of single element tuples that contain the step by step instructins for the recipe.
 # [(instruction1,), (instruction2,), ... (instructionn,)]
 def display_recipe_instructions(instruction_info):
     instruction_number = 1
@@ -66,6 +74,13 @@ def display_recipe_list(recipe_list):
     for recipe_item in recipe_list:
         display_string = "  ".join( (str(recipe_item[0]),recipe_item[1]) )
         click.echo(display_string)
+
+def display_shopping_list(recipe_list, shopping_list):
+    click.echo("Shopping List for:")
+    display_recipe_list(recipe_list)
+    click.echo("")
+    for ingredient in shopping_list:
+        click.echo(ingredient[0])
 
 if __name__ == "__main__":
     cli()

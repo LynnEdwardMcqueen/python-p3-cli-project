@@ -6,10 +6,44 @@ import ipdb
 
 
 class Helper:
+    #
+    # This routine takes the recipe_ids and returns a list of all the ingredients associated with the recipes.
+    # The list is in alphabetical order.  PLEASE NOTE!!!!  As a side effect of database conventions, all
+    # elements of the list are single element tuples that have a string containing an individual ingredient.
+    #
+    def get_shopping_list(recipe_ids):
+        engine = create_engine('sqlite:///db/recipes.db')
+        Session = sessionmaker(bind=engine)
+        session = Session()
+
+        shopping_list = []
+
+        for recipe_id in recipe_ids:
+            recipe_list = session.query(Ingredient.ingredient).filter(Ingredient.recipe_id == recipe_id).all()
+            shopping_list = [*shopping_list, *recipe_list]
+        shopping_list.sort()
+        
+        return(shopping_list)
+        
+  
+    def get_selected_recipes_list(recipe_list):
+        engine = create_engine('sqlite:///db/recipes.db')
+        Session = sessionmaker(bind=engine)
+        session = Session()
+
+        recipe_list_data = []
+        for recipe_index in recipe_list:
+            recipe_info = session.query(Recipe.id, Recipe.recipe_title).filter(Recipe.id == recipe_index).all()
+            recipe_list_data = [*recipe_list_data, *recipe_info]
+            
+        return recipe_list_data
+
+             
     def get_recipe_list(alphabetized = False):
         engine = create_engine('sqlite:///db/recipes.db')
         Session = sessionmaker(bind=engine)
         session = Session()
+
        
         # Return the id and recipe_title information.  
         if alphabetized == False:
@@ -47,7 +81,7 @@ class Helper:
         # The recipe_info has a single tuple embedded in a list (i.e. [(recipe_title, food_pyramid_info1,...)]).  Extract the tuple from the 
         # list and make that the 0th element of the return tuple.  In short, that's why there is recipe_info[0] instead of recipe_info
         return_info = (recipe_info[0], ingredient_info, instruction_info)
-     #   print(return_info)
+
 
 
         return((recipe_info[0], ingredient_info, instruction_info))
