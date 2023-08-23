@@ -27,14 +27,20 @@ class Helper:
     # a data structure that is a tuple that contains 3 elements.  The first is the recipe information with the title and food pyrmid info, the second
     # contains the instructions, and finally the 3 contains all the ingredient information
     #
-    # ( (recipe_title, (recipe_food_pyramid_info)),
-    #   (instruction_1, instruction_2,...instruction_2),
-    #   ((ingredient_info_1), (ingredient_info_2),...(ingredient_info_n) ))
+    # ( [id, recipe_title, recipe_food_pyramid_info)],
+    #   [(instruction_1,), (instruction_2,),...(instruction_n,)),
+    #   [(ingredient_info_1), (ingredient_info_2),...(ingredient_info_n)] )
     # )
     def get_selected_recipe(recipe_id):
         engine = create_engine('sqlite:///db/recipes.db')
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        recipe_info = session.query(Recipe).filter(Recipe.id == recipe_id).all()
+        recipe_info = session\
+            .query(Recipe.recipe_title, Recipe.vegetables_and_fruit, Recipe.breads_and_cereals, Recipe.dairy, Recipe.meat, Recipe.fats_and_sugar )\
+            .filter(Recipe.id == recipe_id).all()
         print(recipe_info)
+        instruction_info = session.query(Instruction.instruction).filter(Instruction.recipe_id == recipe_id).all()
+        print(instruction_info)
+        ingredient_info = session.query(Ingredient.measurement_amount, Ingredient.measurement_unit, Ingredient.ingredient).filter(Ingredient.recipe_id == recipe_id).all()
+        print(ingredient_info)
