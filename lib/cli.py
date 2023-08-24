@@ -7,6 +7,15 @@ help = Helper()
 def cli():
     pass    
 
+
+@click.option("-r", "--recipe_id", required = True, type = int)
+@click.option("-t", "--title", required = True)
+@cli.command()
+def changerecipetitle(recipe_id, title):
+    click.echo(f"The recipe is {recipe_id}")
+    click.echo(f"The new title is {title}")
+
+@click.argument
 @click.argument("recipe_ids", nargs = -1)
 @cli.command()
 def createshoppinglist(recipe_ids):
