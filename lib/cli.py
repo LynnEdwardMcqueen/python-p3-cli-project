@@ -8,6 +8,21 @@ def cli():
     pass    
 
 
+@click.option("-t", "--title")
+@click.option("-v", "--veggies_and_fruits", type = int, default = 0)
+@click.option("-m", "--meat", type = int, default = 0)
+@click.option("-d", "--dairy", type = int, default = 0)
+@click.option("-b", "--bread", type = int, default = 0)
+@click.option("-s", "sugars_and_fats", type = int, default = 0)
+@cli.command()
+def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats):
+    click.echo(f"Title = {title}")
+    click.echo(f"Veggies = {veggies_and_fruits}")
+    click.echo(f"Meat = {meat}")
+    click.echo(f"Dairy = {dairy}")
+    click.echo(f"Breads = {bread}")
+    click.echo(f"Sugars = {sugars_and_fats}")
+
 @click.option("-r", "--recipe_id", required = True, type = int)
 @click.option("-t", "--title", required = True)
 @cli.command()
