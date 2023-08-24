@@ -16,8 +16,12 @@ class Helper:
     def change_recipe_name(self, recipe_id, new_title):
         # This will be a read/modify/write operation, so first read the recipe corresponding to recipe_id
         print(f"recipe_id = {recipe_id} and title = {new_title}")
-        recipe = self.session.query(Recipe).filter(Recipe.id == recipe_id).all()
-        print (f"The fetched recip is {recipe}")
+        # Note that the final method is "first" not "all".  We only need 1 recipe!
+        recipe = self.session.query(Recipe).filter(Recipe.id == recipe_id).first()
+        recipe.recipe_title = new_title
+
+        # Now that the recipe record has the updated title, commit it to the Recipe table.
+        self.session.commit()
 
     def get_pyramid_information(self, recipe_list):
         food_pyramid_dictionary = {}
