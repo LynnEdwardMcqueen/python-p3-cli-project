@@ -13,6 +13,10 @@ class Helper:
         self.session = self.Session()
         self.food_pyramid_entries = ["vegetables_and_fruit", "breads_and_cereals", "dairy", "meat", "fats_and_sugar"]
 
+    def change_recipe_name(self, recipe_id, new_title):
+        # This will be a read/modify/write operation, so first read the recipe corresponding to recipe_id
+        print(f"recipe_id = {recipe_id} and title = {new_title}")
+        # recipe = session.query(Recipe).filter(Recipe.)
     def get_pyramid_information(self, recipe_list):
         food_pyramid_dictionary = {}
 

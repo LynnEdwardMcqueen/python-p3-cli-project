@@ -14,6 +14,7 @@ def cli():
 def changerecipetitle(recipe_id, title):
     click.echo(f"The recipe is {recipe_id}")
     click.echo(f"The new title is {title}")
+    help.change_recipe_name(recipe_id, title)
 
 @click.argument
 @click.argument("recipe_ids", nargs = -1)
