@@ -8,7 +8,7 @@ def cli():
     pass    
 
 
-@click.option("-t", "--title")
+@click.option("-t", "--title", required = True)
 @click.option("-v", "--veggies_and_fruits", type = int, default = 0)
 @click.option("-m", "--meat", type = int, default = 0)
 @click.option("-d", "--dairy", type = int, default = 0)
