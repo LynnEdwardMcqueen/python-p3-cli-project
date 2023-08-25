@@ -69,8 +69,30 @@ class Helper:
         self.session.commit()
 
     def delete_recipe(self, recipe_id):
-        print(f"In delete_recipe {recipe_id}")
-        
+        # INCREDIBLY IMPORTANT!!!! You must delete the foreign_key records first before deleting the
+        # parent record.  
+
+        delete_ingredients = self.session.query(Ingredient).filter(Ingredient.recipe_id == recipe_id).all()
+        print(delete_ingredients)
+        for delete_ingredient in delete_ingredients:
+            self.session.delete(delete_ingredient)
+        self.session.commit()
+    
+        delete_instructions = self.session.query(Instruction).filter(Instruction.recipe_id == recipe_id).all()
+        print(delete_instructions)
+        for delete_instruction in delete_instructions:
+            self.session.delete(delete_instruction)
+        self.session.commit()
+
+        # NOW!! Delete the parent record now that the child records are gone!
+        delete_record = self.session.query(Recipe).filter(Recipe.id == recipe_id).first()
+        self.session.delete(delete_record)
+        self.session.commit()
+
+
+
+
+
     def get_pyramid_information(self, recipe_list):
         food_pyramid_dictionary = {}
 
