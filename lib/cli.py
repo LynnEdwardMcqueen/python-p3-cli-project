@@ -56,7 +56,10 @@ def createshoppinglist(recipe_ids):
 @click.argument("recipe_id", nargs = 1)
 @cli.command()
 def displayrecipe(recipe_id):
-    """Takes a recipe id and displays the recipe details"""
+    """Takes a recipe id and displays the recipe details
+    
+    RECIPE_ID is the index of the recipe to display.
+    """
     # Click sends all arguments as strings.  The recipe_id needs to be converted to
     # integers
     recipe_info = help.get_selected_recipe(int(recipe_id))
