@@ -27,7 +27,9 @@ class Helper:
             fats_and_sugar = fats_and_sugar,
             recipe_is_active = True,
             )
-        
+
+        # TEMPORARY!!! set new_recipe.id = 10 to test the ingredients and instructions
+        new_recipe.id = 10        
         print(f"The new recipe is {new_recipe}")
 
 #        self.session.add(new_recipe)
@@ -41,6 +43,22 @@ class Helper:
         print(f"fats_and_sugars = {fats_and_sugar}")
         print(f"ingredients = {ingredients}")
         print(f"instructions = {instructions}")
+
+        # Update the Ingredient table with the ingredients from the new recipe, using
+        # the new_recipe.id to tie the information back to the new_recipe entry in
+        # the Recipe table.
+        for ingredient in ingredients:
+            new_ingredient = Ingredient(measurement_amount = ingredient[0],
+                measurement_unit = ingredient[1],
+                ingredient = ingredient[2],
+                recipe_id = new_recipe.id)
+            print(f"new_ingredient = {new_ingredient}")
+#        self.session.add(new_ingredient)
+#        self.session.commit()
+
+#        for instruction in instructions:
+#            new_instruction = Instruction()
+
 
     def change_recipe_name(self, recipe_id, new_title):
         # This will be a read/modify/write operation, so first read the recipe corresponding to recipe_id
