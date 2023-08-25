@@ -68,6 +68,9 @@ class Helper:
         # Now that the recipe record has the updated title, commit it to the Recipe table.
         self.session.commit()
 
+    def delete_recipe(self, recipe_id):
+        print(f"In delete_recipe {recipe_id}")
+        
     def get_pyramid_information(self, recipe_list):
         food_pyramid_dictionary = {}
 

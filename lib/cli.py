@@ -85,6 +85,7 @@ def deleterecipe(index):
     
     """
     click.echo(f"Index = {index}")
+    help.delete_recipe(index)
 
 
 @click.argument("recipe_id", nargs = 1)
