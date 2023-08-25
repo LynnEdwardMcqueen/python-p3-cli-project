@@ -19,27 +19,38 @@ def cli():
 @cli.command()
 def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction):
     
+    # If the user did not enter the ingredients on the command line, then prompt for them
     if len(ingredient) == 0:
+        i = 1
+        ingredient =[]
+        new_ingredient_amount = None
+        while new_ingredient_amount != 'q':
+            new_ingredient_amount = click.prompt(f'Enter ingredient {i} amount or q to quit > ')
+            if new_ingredient_amount == "q":
+                break
+            new_ingredient_unit = click.prompt(f'Enter measurement unit (or None if no unit) of ingredient {i} > ')
+            if new_ingredient_unit == "None":
+                new_ingredient_unit = None
+            new_ingredient_name = click.prompt(f'Enter the name of ingredient {i}')
+            click.echo("")
 
-        # If the user did not enter the ingredients on the command line, then prompt for them
-        if len(ingredient) == 0:
-            i = 0
-            ingredient =[]
-            new_ingredient_amount = None
-            while new_ingredient_amount != 'q':
-                new_ingredient_amount = click.prompt(f'Enter ingredient {i} amount or q to quit > ')
-                if new_ingredient_amount == "q":
-                    break
-                new_ingredient_unit = click.prompt(f'Enter measurement unit (or None if no unit) of ingredient {i} > ')
-                if new_ingredient_unit == "None":
-                    new_ingredient_unit = None
-                new_ingredient_name = click.prompt(f'Enter the name of ingredient {i}')
-                click.echo("")
+            ingredient.append((new_ingredient_amount, new_ingredient_unit, new_ingredient_name))
+            i += 1
+    click.echo(f"The ingredient list is {ingredient}" )    
+    
+    if len(instruction) == 0:
+        i = 1
+        instruction = []
+        new_instruction = None
+        while new_instruction != "q":
+            new_instruction = click.prompt(f"Enter instruction {i} or q to quit > ")
+            if new_instruction == "q":
+                break
+            instruction.append(new_instruction)
+            i += 1
+    click.echo(instruction)        
 
-                ingredient.append((new_ingredient_amount, new_ingredient_unit, new_ingredient_name))
-                i += 1
-
-    click.echo(f"The ingredient list is {ingredient}" )
+    
 
 
 @click.option("-r", "--recipe_id", required = True, type = int, help="Numerical Id of the recipe")
