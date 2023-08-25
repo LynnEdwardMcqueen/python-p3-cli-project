@@ -33,8 +33,6 @@ class Helper:
         self.session.add(new_recipe)
         self.session.commit()
 
-        print(f"The new recipe (post session!) is {new_recipe}")
-
         # Update the Ingredient table with the ingredients from the new recipe, using
         # the new_recipe.id to tie the information back to the new_recipe entry in
         # the Recipe table.
@@ -46,7 +44,6 @@ class Helper:
         
             self.session.add(new_ingredient)
             self.session.commit()
-            print(f"new_ingredient = {new_ingredient}")
 
         # Update the Instruction table with the instructions from the new recipe.
         # Remember that new_recipe.id is the recipe_id for each new instruction entry
@@ -56,11 +53,10 @@ class Helper:
                 recipe_id = new_recipe.id)
             self.session.add(new_instruction)
             self.session.commit()
-            print(f"new instruction = {new_instruction}")
+
 
     def change_recipe_name(self, recipe_id, new_title):
         # This will be a read/modify/write operation, so first read the recipe corresponding to recipe_id
-        print(f"recipe_id = {recipe_id} and title = {new_title}")
         # Note that the final method is "first" not "all".  We only need 1 recipe!
         recipe = self.session.query(Recipe).filter(Recipe.id == recipe_id).first()
         recipe.recipe_title = new_title
@@ -73,13 +69,11 @@ class Helper:
         # parent record.  
 
         delete_ingredients = self.session.query(Ingredient).filter(Ingredient.recipe_id == recipe_id).all()
-        print(delete_ingredients)
         for delete_ingredient in delete_ingredients:
             self.session.delete(delete_ingredient)
         self.session.commit()
     
         delete_instructions = self.session.query(Instruction).filter(Instruction.recipe_id == recipe_id).all()
-        print(delete_instructions)
         for delete_instruction in delete_instructions:
             self.session.delete(delete_instruction)
         self.session.commit()
