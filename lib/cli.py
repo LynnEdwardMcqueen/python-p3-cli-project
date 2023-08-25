@@ -77,7 +77,10 @@ def matchingingredient(ingredient):
 @click.argument("recipe_list", nargs = -1)
 @cli.command()
 def showpyramidinfo(recipe_list):
-    """Returns the nutrition pyramid info for a recipe list"""
+    """Returns the nutrition pyramid info for a recipe list
+    
+    RECIPE_LIST contains the numerical indices of the recipes
+    """
     recipe_list = [int(recipe) for recipe in recipe_list]
     click.echo("Food Pyramid Info For:")
     recipe_info = help.get_selected_recipes_list(recipe_list)
