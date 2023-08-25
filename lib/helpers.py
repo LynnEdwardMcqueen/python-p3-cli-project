@@ -116,5 +116,4 @@ class Helper:
      
         # The recipe_info has a single tuple embedded in a list (i.e. [(recipe_title, food_pyramid_info1,...)]).  Extract the tuple from the 
         # list and make that the 0th element of the return tuple.  In short, that's why there is recipe_info[0] instead of recipe_info
-
         return((recipe_info[0], ingredient_info, instruction_info))
