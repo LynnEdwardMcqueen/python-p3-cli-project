@@ -8,12 +8,31 @@ import ipdb
 class Helper:
 
     def __init__(self):
+        # Super important state information to set up SQLAlchemy.  The engine must be created, and then the session bound to
+        # the engine.  This will be used to interface with the recipes database.
         self.engine = create_engine('sqlite:///db/recipes.db')
         self.Session = sessionmaker(bind=self.engine)
         self.session = self.Session()
+        # This information is needed in multiple parts of the code.  This is the single source of truth.
         self.food_pyramid_entries = ["vegetables_and_fruit", "breads_and_cereals", "dairy", "meat", "fats_and_sugar"]
 
     def add_recipe(self, recipe_title, veggies_and_fruit, breads, dairy,meat,fats_and_sugar, ingredients, instructions):
+
+
+        new_recipe = Recipe(recipe_title = recipe_title,
+            vegetables_and_fruit = veggies_and_fruit,
+            breads_and_cereals = breads,
+            dairy = dairy,
+            meat = meat,
+            fats_and_sugar = fats_and_sugar,
+            recipe_is_active = True,
+            )
+        
+        print(f"The new recipe is {new_recipe}")
+
+#        self.session.add(new_recipe)
+#        self.session.commit()
+#        new_recipe = Recipe()
         print(f"Recipe_title = {recipe_title}")
         print(f"veggies_and_fruit = {veggies_and_fruit}")
         print(f"bread = {breads}")
