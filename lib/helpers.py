@@ -28,21 +28,12 @@ class Helper:
             recipe_is_active = True,
             )
 
-        # TEMPORARY!!! set new_recipe.id = 10 to test the ingredients and instructions
-        new_recipe.id = 10        
-        print(f"The new recipe is {new_recipe}")
+   
 
-#        self.session.add(new_recipe)
-#        self.session.commit()
-#        new_recipe = Recipe()
-        print(f"Recipe_title = {recipe_title}")
-        print(f"veggies_and_fruit = {veggies_and_fruit}")
-        print(f"bread = {breads}")
-        print(f"dairy = {dairy}")
-        print(f"meat = {meat}")
-        print(f"fats_and_sugars = {fats_and_sugar}")
-        print(f"ingredients = {ingredients}")
-        print(f"instructions = {instructions}")
+        self.session.add(new_recipe)
+        self.session.commit()
+
+        print(f"The new recipe (post session!) is {new_recipe}")
 
         # Update the Ingredient table with the ingredients from the new recipe, using
         # the new_recipe.id to tie the information back to the new_recipe entry in
@@ -52,13 +43,19 @@ class Helper:
                 measurement_unit = ingredient[1],
                 ingredient = ingredient[2],
                 recipe_id = new_recipe.id)
+        
+            self.session.add(new_ingredient)
+            self.session.commit()
             print(f"new_ingredient = {new_ingredient}")
-#        self.session.add(new_ingredient)
-#        self.session.commit()
 
+        # Update the Instruction table with the instructions from the new recipe.
+        # Remember that new_recipe.id is the recipe_id for each new instruction entry
+        # in the Instruction table.
         for instruction in instructions:
             new_instruction = Instruction(instruction = instruction,
                 recipe_id = new_recipe.id)
+            self.session.add(new_instruction)
+            self.session.commit()
             print(f"new instruction = {new_instruction}")
 
     def change_recipe_name(self, recipe_id, new_title):
