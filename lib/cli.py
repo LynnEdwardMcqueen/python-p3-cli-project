@@ -37,7 +37,7 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
             ingredient.append((new_ingredient_amount, new_ingredient_unit, new_ingredient_name))
             i += 1
     click.echo(f"The ingredient list is {ingredient}" )    
-    
+
     if len(instruction) == 0:
         i = 1
         instruction = []
@@ -49,6 +49,7 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
             instruction.append(new_instruction)
             i += 1
     click.echo(instruction)        
+    help.add_recipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction)
 
     
 

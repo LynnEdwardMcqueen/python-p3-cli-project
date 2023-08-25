@@ -13,6 +13,16 @@ class Helper:
         self.session = self.Session()
         self.food_pyramid_entries = ["vegetables_and_fruit", "breads_and_cereals", "dairy", "meat", "fats_and_sugar"]
 
+    def add_recipe(self, recipe_title, veggies_and_fruit, breads, dairy,meat,fats_and_sugar, ingredients, instructions):
+        print(f"Recipe_title = {recipe_title}")
+        print(f"veggies_and_fruit = {veggies_and_fruit}")
+        print(f"bread = {breads}")
+        print(f"dairy = {dairy}")
+        print(f"meat = {meat}")
+        print(f"fats_and_sugars = {fats_and_sugar}")
+        print(f"ingredients = {ingredients}")
+        print(f"instructions = {instructions}")
+
     def change_recipe_name(self, recipe_id, new_title):
         # This will be a read/modify/write operation, so first read the recipe corresponding to recipe_id
         print(f"recipe_id = {recipe_id} and title = {new_title}")
