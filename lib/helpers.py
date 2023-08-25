@@ -56,9 +56,10 @@ class Helper:
 #        self.session.add(new_ingredient)
 #        self.session.commit()
 
-#        for instruction in instructions:
-#            new_instruction = Instruction()
-
+        for instruction in instructions:
+            new_instruction = Instruction(instruction = instruction,
+                recipe_id = new_recipe.id)
+            print(f"new instruction = {new_instruction}")
 
     def change_recipe_name(self, recipe_id, new_title):
         # This will be a read/modify/write operation, so first read the recipe corresponding to recipe_id
