@@ -36,7 +36,6 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
 
             ingredient.append((new_ingredient_amount, new_ingredient_unit, new_ingredient_name))
             i += 1
-    click.echo(f"The ingredient list is {ingredient}" )    
 
     if len(instruction) == 0:
         i = 1
@@ -48,7 +47,7 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
                 break
             instruction.append(new_instruction)
             i += 1
-    click.echo(instruction)        
+
     help.add_recipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction)
 
     
@@ -59,8 +58,6 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
 @cli.command()
 def changerecipetitle(recipe_id, title):
     """Changes the name/title of a recipe."""
-    click.echo(f"The recipe is {recipe_id}")
-    click.echo(f"The new title is {title}")
     help.change_recipe_name(recipe_id, title)
 
 @click.argument
@@ -84,7 +81,6 @@ def deleterecipe(index):
     """Deletes a recipe from the database
     
     """
-    click.echo(f"Index = {index}")
     help.delete_recipe(index)
 
 
