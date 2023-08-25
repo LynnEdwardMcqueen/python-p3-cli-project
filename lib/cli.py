@@ -8,14 +8,14 @@ def cli():
     pass    
 
 
+@click.option("-j", "--instruction", type = str, multiple = True)
 @click.option("-t", "--title", required = True)
 @click.option("-v", "--veggies_and_fruits", type = int, default = 0)
 @click.option("-m", "--meat", type = int, default = 0)
 @click.option("-d", "--dairy", type = int, default = 0)
 @click.option("-b", "--bread", type = int, default = 0)
-@click.option("-s", "sugars_and_fats", type = int, default = 0)
+@click.option("-s", "--sugars_and_fats", type = int, default = 0)
 @click.option("-i", "--ingredient", type = (str, str, str), multiple = True)
-@click.option("-j", "--instruction", multiple = True)
 @cli.command()
 def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction):
     click.echo(f"Title = {title}")
@@ -32,6 +32,7 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
 @click.option("-t", "--title", required = True)
 @cli.command()
 def changerecipetitle(recipe_id, title):
+    """Changes the name/title of a recipe."""
     click.echo(f"The recipe is {recipe_id}")
     click.echo(f"The new title is {title}")
     help.change_recipe_name(recipe_id, title)
@@ -40,6 +41,7 @@ def changerecipetitle(recipe_id, title):
 @click.argument("recipe_ids", nargs = -1)
 @cli.command()
 def createshoppinglist(recipe_ids):
+    """Creates a shopping list from a list of recipe ids"""
     # The arguments are sent in a tuple as strings.  Need to be converted
     # to ints
     shopping_ids = [int(recipe_id) for recipe_id in recipe_ids]
@@ -51,7 +53,7 @@ def createshoppinglist(recipe_ids):
 @click.argument("recipe_id", nargs = 1)
 @cli.command()
 def displayrecipe(recipe_id):
-    
+    """Takes a recipe id and displays the recipe details"""
     # Click sends all arguments as strings.  The recipe_id needs to be converted to
     # integers
     recipe_info = help.get_selected_recipe(int(recipe_id))
@@ -60,12 +62,14 @@ def displayrecipe(recipe_id):
 @click.option("-a", "--alpha", is_flag = True, show_default = True, default = 0)
 @cli.command()
 def listrecipes(alpha):
+    """Displays the recipe ids and titles"""
     recipe_list = help.get_recipe_list(alpha)
     display_recipe_list(recipe_list)
 
 @click.argument("ingredient", nargs = 1)
 @cli.command()
 def matchingingredient(ingredient):
+    """Displays a list of recipes containing an ingredient"""
     recipe_list = help.get_recipe_matching_ingredient(ingredient)
     click.echo(f"Recipes with {ingredient} as an ingredient: ")
     display_recipe_list(recipe_list)
@@ -73,6 +77,7 @@ def matchingingredient(ingredient):
 @click.argument("recipe_list", nargs = -1)
 @cli.command()
 def showpyramidinfo(recipe_list):
+    """Returns the nutrition pyramid info for a recipe list"""
     recipe_list = [int(recipe) for recipe in recipe_list]
     click.echo("Food Pyramid Info For:")
     recipe_info = help.get_selected_recipes_list(recipe_list)
