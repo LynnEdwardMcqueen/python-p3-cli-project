@@ -78,6 +78,14 @@ def createshoppinglist(recipe_ids):
     recipes_list = help.get_selected_recipes_list(shopping_ids)
     display_shopping_list(recipes_list, shopping_list)
 
+@click.option("-i", "--index", type = int, required=True, help="Numerical index of the recipe you wish to delete")
+@cli.command()
+def deleterecipe(index):
+    """Deletes a recipe from the database
+    
+    """
+    click.echo(f"Index = {index}")
+
 
 @click.argument("recipe_id", nargs = 1)
 @cli.command()
