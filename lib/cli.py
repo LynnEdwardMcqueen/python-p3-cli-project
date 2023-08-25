@@ -15,8 +15,9 @@ def cli():
 @click.option("-b", "--bread", type = int, default = 0)
 @click.option("-s", "sugars_and_fats", type = int, default = 0)
 @click.option("-i", "--ingredient", type = (str, str, str), multiple = True)
+@click.option("-j", "--instruction", multiple = True)
 @cli.command()
-def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient):
+def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction):
     click.echo(f"Title = {title}")
     click.echo(f"Veggies = {veggies_and_fruits}")
     click.echo(f"Meat = {meat}")
@@ -24,6 +25,7 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
     click.echo(f"Breads = {bread}")
     click.echo(f"Sugars = {sugars_and_fats}")
     click.echo(f"Ingredients = {ingredient}")
+    click.echo(f"Directions = {instruction}")
 
 
 @click.option("-r", "--recipe_id", required = True, type = int)
