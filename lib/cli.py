@@ -84,7 +84,7 @@ def deleterecipe(index):
     help.delete_recipe(index)
 
 
-@click.argument("recipe_id", nargs = 1)
+@click.option("-i", "index", required=True, help="Numerical index of the recipe you wish to display" )
 @cli.command()
 def displayrecipe(recipe_id):
     """Takes a recipe id and displays the recipe details
@@ -155,9 +155,9 @@ def display_recipe_ingredients(ingredients_info):
     for ingredient in ingredients_info:
     
         if ingredient[1] == None:
-            ingredient_string = " "*9 + ingredient[0] + " " + ingredient[2]
+            ingredient_string = " "*11 + ingredient[0] + " " + ingredient[2]
         else:
-            ingredient_string = ("%9s" % (ingredient[0] + " " + ingredient[1] + " ")) + ingredient[2]
+            ingredient_string = ("%11s" % (ingredient[0] + " " + ingredient[1] + " ")) + ingredient[2]
         click.echo(ingredient_string)
 
 #

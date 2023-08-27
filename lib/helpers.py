@@ -167,12 +167,13 @@ class Helper:
     def get_selected_recipe(self, recipe_id):
         recipe_info = self.session\
             .query(Recipe.recipe_title, Recipe.vegetables_and_fruit, Recipe.breads_and_cereals, Recipe.dairy, Recipe.meat, Recipe.fats_and_sugar )\
-            .filter(Recipe.id == recipe_id).all()
+            .filter(Recipe.id == recipe_id).first()
         
+        print(recipe_info)
         instruction_info = self.session.query(Instruction.instruction).filter(Instruction.recipe_id == recipe_id).all()
         ingredient_info = self.session.query(Ingredient.measurement_amount, Ingredient.measurement_unit, Ingredient.ingredient)\
             .filter(Ingredient.recipe_id == recipe_id).all()
      
         # The recipe_info has a single tuple embedded in a list (i.e. [(recipe_title, food_pyramid_info1,...)]).  Extract the tuple from the 
         # list and make that the 0th element of the return tuple.  In short, that's why there is recipe_info[0] instead of recipe_info
-        return((recipe_info[0], ingredient_info, instruction_info))
+        return((recipe_info, ingredient_info, instruction_info))
