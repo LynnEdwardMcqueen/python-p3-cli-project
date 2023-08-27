@@ -19,7 +19,7 @@ def cli():
 @click.option("-s", "--sugars_and_fats", type = int, default = 0)
 @click.option("-i", "--ingredient", type = (str, str, str), multiple = True, help = "TEXT 1 = Amount, examples are 1-5/8, .75.  TEXT 2 = unit, exampes are tsp, cup, oz.  TEXT 3 = ingredient")
 @cli.command()
-def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction):
+def add_recipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction):
     """
     Adds a new recipe to the list.  Includes:  Recipe title, food pyramid info, ingredients, and instructions.
     """
@@ -28,7 +28,7 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
 
     instruction_list = get_new_recipe_instructions(instruction)
 
-    cmd_processor.add_recipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient_list, instruction)
+    cmd_processor.add_recipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient_list, instruction_list)
 
     
 
@@ -36,14 +36,14 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
 @click.option("-r", "--recipe_id", required = True, type = int, help="Numerical Id of the recipe")
 @click.option("-t", "--title", required = True, help="New title for the recipe")
 @cli.command()
-def changerecipetitle(recipe_id, title):
+def change_recipe_title(recipe_id, title):
     """Changes the name/title of a recipe."""
     cmd_processor.change_recipe_name(recipe_id, title)
 
 @click.argument
 @click.argument("recipe_ids", nargs = -1)
 @cli.command()
-def createshoppinglist(recipe_ids):
+def create_shopping_list(recipe_ids):
     """Creates a shopping list from a list of recipe ids
 
     RECIPE_IDS is a list of recipe indices from which to build the list. 
@@ -57,7 +57,7 @@ def createshoppinglist(recipe_ids):
 
 @click.option("-i", "--index", type = int, required=True, help="Numerical index of the recipe you wish to delete")
 @cli.command()
-def deleterecipe(index):
+def delete_recipe(index):
     """Deletes a recipe from the database
     
     """
@@ -66,26 +66,25 @@ def deleterecipe(index):
 
 @click.option("-i", "index", required=True, help="Numerical index of the recipe you wish to display" )
 @cli.command()
-def displayrecipe(index):
+def display_recipe(index):
     """Takes a recipe id and displays the recipe details
     
-    RECIPE_ID is the index of the recipe to display.
     """
     # Click sends all arguments as strings.  The recipe_id needs to be converted to
     # integers
-    recipe_info = cmd_processor.get_selected_recipe(int(recipe_id))
+    recipe_info = cmd_processor.get_selected_recipe(int(index))
     display_recipe(recipe_info)
 
 @click.option("-a", "--alpha", is_flag = True, show_default = True, default = 0, help = "Alphabetize the list")
 @cli.command()
-def listrecipes(alpha):
+def list_recipes(alpha):
     """Displays the recipe ids and titles"""
     recipe_list = cmd_processor.get_recipe_list(alpha)
     display_recipe_list(recipe_list)
 
 @click.argument("ingredient", nargs = 1)
 @cli.command()
-def matchingingredient(ingredient):
+def matching_ingredient(ingredient):
     """Displays a list of recipes containing an ingredient
 
     INGREDIENT is the search ingredient.  
@@ -96,7 +95,7 @@ def matchingingredient(ingredient):
 
 @click.argument("recipe_list", nargs = -1)
 @cli.command()
-def showpyramidinfo(recipe_list):
+def show_pyramid_info(recipe_list):
     """Returns the nutrition pyramid info for a recipe list
     
     RECIPE_LIST contains the numerical indices of the recipes
