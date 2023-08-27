@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, func, column
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import Recipe, Ingredient, Instruction 
 import ipdb
