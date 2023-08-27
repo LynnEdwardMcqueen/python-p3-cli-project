@@ -1,7 +1,7 @@
-from helpers import Helper
+from cmdprocessor import CmdProcessor
 import click
 
-help = Helper()
+cmd_processor = CmdProcessor()
 
 @click.group()
 def cli():
@@ -50,7 +50,7 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
             instruction.append(new_instruction)
             i += 1
 
-    help.add_recipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction)
+    cmd_processor.add_recipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction)
 
     
 
@@ -60,7 +60,7 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
 @cli.command()
 def changerecipetitle(recipe_id, title):
     """Changes the name/title of a recipe."""
-    help.change_recipe_name(recipe_id, title)
+    cmd_processor.change_recipe_name(recipe_id, title)
 
 @click.argument
 @click.argument("recipe_ids", nargs = -1)
@@ -73,8 +73,8 @@ def createshoppinglist(recipe_ids):
     # The arguments are sent in a tuple as strings.  Need to be converted
     # to ints
     shopping_ids = [int(recipe_id) for recipe_id in recipe_ids]
-    shopping_list = help.get_shopping_list(shopping_ids)
-    recipes_list = help.get_selected_recipes_list(shopping_ids)
+    shopping_list = cmd_processor.get_shopping_list(shopping_ids)
+    recipes_list = cmd_processor.get_selected_recipes_list(shopping_ids)
     display_shopping_list(recipes_list, shopping_list)
 
 @click.option("-i", "--index", type = int, required=True, help="Numerical index of the recipe you wish to delete")
@@ -83,7 +83,7 @@ def deleterecipe(index):
     """Deletes a recipe from the database
     
     """
-    help.delete_recipe(index)
+    cmd_processor.delete_recipe(index)
 
 
 @click.option("-i", "index", required=True, help="Numerical index of the recipe you wish to display" )
@@ -95,14 +95,14 @@ def displayrecipe(recipe_id):
     """
     # Click sends all arguments as strings.  The recipe_id needs to be converted to
     # integers
-    recipe_info = help.get_selected_recipe(int(recipe_id))
+    recipe_info = cmd_processor.get_selected_recipe(int(recipe_id))
     display_recipe(recipe_info)
 
 @click.option("-a", "--alpha", is_flag = True, show_default = True, default = 0, help = "Alphabetize the list")
 @cli.command()
 def listrecipes(alpha):
     """Displays the recipe ids and titles"""
-    recipe_list = help.get_recipe_list(alpha)
+    recipe_list = cmd_processor.get_recipe_list(alpha)
     display_recipe_list(recipe_list)
 
 @click.argument("ingredient", nargs = 1)
@@ -112,7 +112,7 @@ def matchingingredient(ingredient):
 
     INGREDIENT is the search ingredient.  
     """
-    recipe_list = help.get_recipe_matching_ingredient(ingredient)
+    recipe_list = cmd_processor.get_recipe_matching_ingredient(ingredient)
     click.echo(f"Recipes with {ingredient} as an ingredient: ")
     display_recipe_list(recipe_list)
 
@@ -125,12 +125,12 @@ def showpyramidinfo(recipe_list):
     """
     recipe_list = [int(recipe) for recipe in recipe_list]
     click.echo("Food Pyramid Info For:")
-    recipe_info = help.get_selected_recipes_list(recipe_list)
+    recipe_info = cmd_processor.get_selected_recipes_list(recipe_list)
     display_recipe_list(recipe_info)
     
     click.echo("\nFood Pyramid Data:")
-    pyramid_result_dictionary = help.get_pyramid_information(recipe_list)
-    for category in help.food_pyramid_entries:
+    pyramid_result_dictionary = cmd_processor.get_pyramid_information(recipe_list)
+    for category in cmd_processor.food_pyramid_entries:
         click.echo(f"{category} - {pyramid_result_dictionary[category]}")
 
 

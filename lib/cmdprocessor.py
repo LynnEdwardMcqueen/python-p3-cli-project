@@ -5,7 +5,7 @@ import ipdb
 
 
 
-class Helper:
+class CmdProcessor:
 
     def __init__(self):
         # Super important state information to set up SQLAlchemy.  The engine must be created, and then the session bound to
