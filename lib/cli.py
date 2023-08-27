@@ -18,7 +18,9 @@ def cli():
 @click.option("-i", "--ingredient", type = (str, str, str), multiple = True, help = "TEXT 1 = Amount, examples are 1-5/8, .75.  TEXT 2 = unit, exampes are tsp, cup, oz.  TEXT 3 = ingredient")
 @cli.command()
 def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction):
-    
+    """
+    Adds a new recipe to the list.  Includes:  Recipe title, food pyramid info, ingredients, and instructions.
+    """
     # If the user did not enter the ingredients on the command line, then prompt for them
     if len(ingredient) == 0:
         i = 1

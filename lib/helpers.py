@@ -160,11 +160,12 @@ class Helper:
     # a data structure that is a tuple that contains 3 elements.  The first is the recipe information with the title and food pyrmid info, the second
     # contains the instructions, and finally the 3 contains all the ingredient information
     #
-    # ( [id, recipe_title, recipe_food_pyramid_info)],
+    # ( (id, recipe_title, recipe_food_pyramid_info)),
     #   [(ingredient_info_1), (ingredient_info_2),...(ingredient_info_n)],
     #   [(instruction_1,), (instruction_2,),...(instruction_n,)]
     # )
     def get_selected_recipe(self, recipe_id):
+        # The recipe_info only returns 1 record.  The recipe_id is the primary key for the Recipe able
         recipe_info = self.session\
             .query(Recipe.recipe_title, Recipe.vegetables_and_fruit, Recipe.breads_and_cereals, Recipe.dairy, Recipe.meat, Recipe.fats_and_sugar )\
             .filter(Recipe.id == recipe_id).first()
@@ -174,6 +175,4 @@ class Helper:
         ingredient_info = self.session.query(Ingredient.measurement_amount, Ingredient.measurement_unit, Ingredient.ingredient)\
             .filter(Ingredient.recipe_id == recipe_id).all()
      
-        # The recipe_info has a single tuple embedded in a list (i.e. [(recipe_title, food_pyramid_info1,...)]).  Extract the tuple from the 
-        # list and make that the 0th element of the return tuple.  In short, that's why there is recipe_info[0] instead of recipe_info
         return((recipe_info, ingredient_info, instruction_info))
