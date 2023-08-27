@@ -1,239 +1,113 @@
-# Phase 3 CLI Project Template
+# Recipe cli Project
 
-## Learning Goals
+## Project Goals
 
-- Discuss the basic directory structure of a CLI.
-- Outline the first steps in building a CLI.
+- Create a recipe database with a command line interface (Cli)
+- Provide basic functionality:  Add/Delete Recipe, Display Recipe, Display Recipe List, Change Recipe Title.
+- Provide a shopping list given a set of recipes.  With multiple growing teens in the house, I can never take for granted that the required ingredients are in the cupboards and pantry.
+- Show the food pyramid information given a set of recipes.  It's not the best approach to nutrition.  I just want to make sure that the choices I'm making are somewhat balanced and include a variety of nutritional ingredients.
+- Retrieve recipes given a particular ingredient.  In this day of Costco Warehouse shopping, I need to know what I can do with my 5 pound purchase of Ricotta cheese.
+
+
+
 
 ***
 
-## Introduction
+## Environment Setup
 
-You now have a basic idea of what constitutes a CLI, but you (understandably!)
-likely don't have the best idea of where to start. Fork and clone this lesson
-for a template for your CLI. Take a look at the directory structure before we
-begin:
+This project includes Pipfile to support configuring your environment to run the program.  This program requires alembic, sqlalchemy, python, and click packages.  It provides ipdb support in case you decide to dive in an debug.  To correctly configure your environment, from the project root directory run
+- pipenv install python
+- pipenv install alembic
+- pipenv install sqlalchemy
+- pipenv install click
 
-```console
-.
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-└── lib
-    ├── cli.py
-    ├── db
-    │   ├── models.py
-    │   └── seed.py
-    ├── debug.py
-    └── helpers.py
+Additionally, you will need to install sqlite3.  For Windows machines (which is what I used), you need to run the following from the WSL terminal.
+- Update your Ubuntu packages by running: sudo apt update
+- Once the packages have updated, install SQLite3 with: sudo apt install sqlite3
+
+Now run pipenv shell to run with all the packages correctly configured.
+
+
+## Running the program
+
+To run this program, cd to the lib directory of the project.  The project uses the click python package.  All commands are contained in the cli.py file.  To see the available commands, type python cli.py --help.  You will see the following as shown in the example below.
+```
+lynn@DESKTOP-75E266D:~/Development/code/phase3/python-p3-cli-project/lib$ python cli.py --help
+Usage: cli.py [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  add-recipe            Adds a new recipe to the list.
+  change-recipe-title   Changes the name/title of a recipe.
+  create-shopping-list  Creates a shopping list from a list of recipe ids
+  delete-recipe         Deletes a recipe from the database
+  display-recipe        Takes a recipe id and displays the recipe details
+  list-recipes          Displays the recipe ids and titles
+  matching-ingredient   Displays a list of recipes containing an ingredient
+  show-pyramid-info     Returns the nutrition pyramid info for a recipe...
+```
+Help for individual commands is available also.  For example, help for the matching-ingredient command is:
+```
+lynn@DESKTOP-75E266D:~/Development/code/phase3/python-p3-cli-project/lib$ python cli.py matching-ingredient --help
+Usage: cli.py matching-ingredient [OPTIONS] INGREDIENT
+
+  Displays a list of recipes containing an ingredient
+
+  INGREDIENT is the search ingredient.
+
+Options:
+  --help  Show this message and exit.
 ```
 
-> **Note: You may already know some or all of the material covered in this
-> lesson. We hope that having it all in one place will help you in designing
-> and developing your project, regardless of where you're starting off.**
 
-***
+## File Descriptions
+The program consists of 4 main python files:
+- cli.py
+- cmdprocessor.py
+- helpers.py
+- models.py
 
-## Where Do I Start?
+### cli.py
+The cli.py file uses the python click package for handling the user input and printing to the screen.  The following functions are in the file.
+- add_recipe
+- change_recipe_title 
+- display_recipe
+- list_recipes
+- matching_ingredient
+- show_pyramid_info
 
-This project will likely be one of the biggest projects you've undertaken so
-far. Your first task should be creating a Git repository to keep track of your
-work and roll back any undesired changes.
 
-### Removing Existing Git Configuration
+ 
+#### add_recipe
+The add_recipe gets the title, food pyramid information, ingredients, and instructions for a new recipe from the user and commits them to the data base.
 
-If you're using this template, start off by removing the existing metadata for
-Github and Canvas. Run the following command to carry this out:
+#### change_recipe_title
+This routine takes a recipe index and title string and alters the title of the recipe in the data base.
 
-```console
-$ rm -rf .git .github .canvas
-```
+#### display_recipe
+This routine takes a recipe index and returns the title, ingredient list, and instruction list for the recipe.
 
-The `rm` command removes files from your computer's memory. The `-r` flag tells
-the console to remove _recursively_, which allows the command to remove
-directories and the files within them. `-f` removes them permanently.
+#### list_recipes 
+This routine returns the recipe title and index for every recipe in the database.
 
-`.git` contains this directory's configuration to track changes and push to
-Github (you want to track and push _your own_ changes instead), and `.github`
-and `.canvas` contain the metadata to create a Canvas page from your Git repo.
-You don't have the permissions to edit our Canvas course, so it's not worth
-keeping them around.
+#### matching_ingredient
+This routine takes an ingredient from the user, searches the database for it and returns a list of recipes that include it in their ingredient list.
 
-### Creating Your Own Git Repo
+#### show_pyramid_info
+show_pyramid_info takes a list of recipe indices and returns the food pyramid information for the collection of recipes.
 
-First things first- rename this directory! Once you have an idea for a name,
-move one level up with `cd ..` and run `mv python-p3-cli-project-template
-<new-directory-name>` to change its name.
+### cmdprocessor.py
+This file contains all the functionality needed to interface with the sqlalchemy package.  It takes the requests from the cli and performs the database operations.
 
-> **Note: `mv` actually stands for "move", but your computer interprets this
-> rename as a move from a directory with the old name to a directory with
-> a new name.**
+#### helper.py
+This file contains the functions for handling the I/O associated with the commands in cli.py.
 
-`cd` back into your new directory and run `git init` to create a local git
-repository. Add all of your local files to version control with `git add --all`,
-then commit them with `git commit -m'initial commit'`. (You can change the
-message here- this one is just a common choice.)
+#### model.py
+This file contains the sqlalchemy database model.  There are 3 tables:
+- Recipe
+- Ingredient
+- Instruction
 
-Navigate to [GitHub](https://github.com). In the upper-right corner of the page,
-click on the "+" dropdown menu, then select "New repository". Enter the name of
-your local repo, choose whether you would like it to be public or private, make
-sure "Initialize this repository with a README" is unchecked (you already have
-one), then click "Create repository".
-
-Head back to the command line and enter `git remote add <project name> <github
-url>`. This will map the remote repository to your local repository. Finally,
-push your first commit with `git push -u origin main`.
-
-Your project is now version-controlled locally and online. This will allow you
-to create different versions of your project and pick up your work on a
-different machine if the need arises.
-
-***
-
-## Generating Your Pipenv
-
-You might have noticed in the file structure- there's already a Pipfile! That
-being said, we haven't put much in there- just Python version 3.8 and ipdb.
-
-Install any dependencies you know you'll need for your project, like SQLAlchemy
-and Alembic, before you begin. You can do this straight from the command line:
-
-```console
-$ pipenv install sqlalchemy alembic
-```
-
-From here, you should run your second commit:
-
-```console
-$ git add Pipfile Pipfile.lock
-$ git commit -m'add sqlalchemy and alembic to pipenv'
-$ git push
-```
-
-Now that your environment is set up, run `pipenv shell` to enter it.
-
-***
-
-## Generating Your Database
-
-Once you're in your environment, you can start development wherever you'd like.
-We think it's easiest to start with setting up your database.
-
-`cd` into the `lib/db` directory, then run `alembic init migrations` to set up
-Alembic. Modify line 58 in `alembic.ini` to point to the database you intend to
-create, then replace line 21 in `migrations/env.py` with the following:
-
-```py
-from models import Base
-target_metadata = Base.metadata
-```
-
-We haven't created our `Base` or any models just yet, but we know where they're
-going to be. Navigate to `models.py` and start creating those models. Remember
-to regularly run `alembic revision --autogenerate -m'<descriptive message>'` and
-`alembic upgrade head` to track your modifications to the database and create
-checkpoints in case you ever need to roll those modifications back.
-
-If you want to seed your database, now would be a great time to write out your
-`seed.py` script and run it to generate some test data. You may want to use
-Pipenv to install Faker to save you some time.
-
-***
-
-## Generating Your CLI
-
-A CLI is, simply put, an interactive script. You can run it with `python cli.py`
-or include the shebang and make it executable with `chmod +x`. It will ask for
-input, do some work, and accomplish some sort of task by the end.
-
-Past that, CLIs can be whatever you'd like. An inventory navigator? A checkout
-station for a restaurant? A choose-your-adventure video game? Absolutely!
-
-Here's what all of these things have in common (if done well): a number of
-`import` statements (usually _a lot_ of import statements), an `if __name__ ==
-"__main__"` block, and a number of function calls inside of that block. These
-functions should be kept in other modules (ideally not _just_ `helpers.py`)
-
-There will likely be some `print()` statements in your CLI script to let the
-user know what's going on, but most of these can be placed in functions in
-other modules that are grouped with others that carry out similar tasks. You'll
-see some variable definitions, object initializations, and control flow
-operators (especially `if/else` blocks and `while` loops) as well. When your
-project is done, your `cli.py` file might look like this:
-
-```py
-from helpers import (
-    function_1, function_2,
-    function_3, function_4,
-    function_5, function_6,
-    function_7, function_8,
-    function_9, function_10
-)
-
-if __name__ == '__main__':
-    print('Welcome to my CLI!')
-    function_1()
-    x = 0
-    while not x:
-        x = function_2(x)
-    if x < 0:
-        y = function_3(x)
-    else:
-        y = function_4(x)
-    z = function_5(y)
-    z = function_6(z)
-    z = function_7(z)
-    z = function_8(z)
-    function_9(z)
-    function_10(x, y, z)
-    print('Thanks for using my CLI')
-
-```
-
-***
-
-## Updating Your README.md
-
-`README.md` is a Markdown file that describes your project. These files can be
-used in many different ways- you may have noticed that we use them to generate
-entire Canvas lessons- but they're most commonly used as homepages for online
-Git repositories. **When you develop something that you want other people to
-use, you need to have a README.**
-
-Markdown is not a language that we cover in Flatiron's Software Engineering
-curriculum, but it's not a particularly difficult language to learn (if you've
-ever left a comment on Reddit, you might already know the basics). Refer to the
-cheat sheet in this lesson's resources for a basic guide to Markdown.
-
-### What Goes into a README?
-
-This README should serve as a template for your own- go through the important
-files in your project and describe what they do. Each file that you edit
-(you can ignore your Alembic files) should get at least a paragraph. Each
-function should get a small blurb.
-
-You should descibe your actual CLI script first, and with a good level of
-detail. The rest should be ordered by importance to the user. (Probably
-functions next, then models.)
-
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
-
-***
-
-## Conclusion
-
-A lot of work goes into a good CLI, but it all relies on concepts that you've
-practiced quite a bit by now. Hopefully this template and guide will get you
-off to a good start with your Phase 3 Project.
-
-Happy coding!
-
-***
-
-## Resources
-
-- [Setting up a respository - Atlassian](https://www.atlassian.com/git/tutorials/setting-up-a-repository)
-- [Create a repo- GitHub Docs](https://docs.github.com/en/get-started/quickstart/create-a-repo)
-- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
+The Recipe and Ingredient tables share a 1 to many relationship (i.e., 1 recipe entry is related to multiple ingredient entries).  The Recipe and Instruction tables also share a 1 to many relationship (i.e, 1 recipe entry is related to multiple instruction entries).
