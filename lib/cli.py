@@ -1,5 +1,7 @@
 from cmdprocessor import CmdProcessor
 import click
+from helpers import display_recipe, display_recipe_list, display_shopping_list,get_new_recipe_ingredients, get_new_recipe_instructions
+
 
 cmd_processor = CmdProcessor()
 
@@ -21,36 +23,12 @@ def addrecipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, in
     """
     Adds a new recipe to the list.  Includes:  Recipe title, food pyramid info, ingredients, and instructions.
     """
-    # If the user did not enter the ingredients on the command line, then prompt for them
-    if len(ingredient) == 0:
-        i = 1
-        ingredient =[]
-        new_ingredient_amount = None
-        while new_ingredient_amount != 'q':
-            new_ingredient_amount = click.prompt(f'Enter ingredient {i} amount or q to quit > ')
-            if new_ingredient_amount == "q":
-                break
-            new_ingredient_unit = click.prompt(f'Enter measurement unit (or None if no unit) of ingredient {i} > ')
-            if new_ingredient_unit == "None":
-                new_ingredient_unit = None
-            new_ingredient_name = click.prompt(f'Enter the name of ingredient {i}')
-            click.echo("")
 
-            ingredient.append((new_ingredient_amount, new_ingredient_unit, new_ingredient_name))
-            i += 1
+    ingredient_list = get_new_recipe_ingredients(ingredient)
 
-    if len(instruction) == 0:
-        i = 1
-        instruction = []
-        new_instruction = None
-        while new_instruction != "q":
-            new_instruction = click.prompt(f"Enter instruction {i} or q to quit > ")
-            if new_instruction == "q":
-                break
-            instruction.append(new_instruction)
-            i += 1
+    instruction_list = get_new_recipe_instructions(instruction)
 
-    cmd_processor.add_recipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient, instruction)
+    cmd_processor.add_recipe(title, veggies_and_fruits, meat, dairy, bread, sugars_and_fats, ingredient_list, instruction)
 
     
 
@@ -88,7 +66,7 @@ def deleterecipe(index):
 
 @click.option("-i", "index", required=True, help="Numerical index of the recipe you wish to display" )
 @cli.command()
-def displayrecipe(recipe_id):
+def displayrecipe(index):
     """Takes a recipe id and displays the recipe details
     
     RECIPE_ID is the index of the recipe to display.
@@ -133,57 +111,6 @@ def showpyramidinfo(recipe_list):
     for category in cmd_processor.food_pyramid_entries:
         click.echo(f"{category} - {pyramid_result_dictionary[category]}")
 
-
-
-
-def display_recipe(recipe_info):
-    # Print the recipe title
-    click.echo(f"Recipe Title:  {recipe_info[0][0]}")
-    click.echo("\nIngredients")
-    display_recipe_ingredients(recipe_info[1])
-    click.echo("\nInstructions")
-    display_recipe_instructions(recipe_info[2])
-
-#
-# The ingredients_info is a data structure that is a list of tuples containing the ingredient information.
-# [(amount, mesurement_unit, ingredient),...].  The amount and measurement unit are right justified in the
-# leftmost 9 columns of the display (including a space pad for the ingredient)
-#
-# The format accomodates non-unit ingredients.  For example, if the recipe calls for 5 eggs,then
-#   ingredient_info[0] == 5, ingredient_info[1] == None, ingredient_info[2] == "eggs"
-# In this scenario, there is nothing in the 9 columns of measurement info, and the amount is joined with the
-# ingredient
-def display_recipe_ingredients(ingredients_info):
-    for ingredient in ingredients_info:
-    
-        if ingredient[1] == None:
-            ingredient_string = " "*11 + ingredient[0] + " " + ingredient[2]
-        else:
-            ingredient_string = ("%11s" % (ingredient[0] + " " + ingredient[1] + " ")) + ingredient[2]
-        click.echo(ingredient_string)
-
-#
-# instruction_info is a list of single element tuples that contain the step by step instructins for the recipe.
-# [(instruction1,), (instruction2,), ... (instructionn,)]
-def display_recipe_instructions(instruction_info):
-    instruction_number = 1
-    for instruction in instruction_info:
-        # instruction is a single element tuple, so display instruction[0]
-        click.echo(f"{instruction_number}.  {instruction[0]}")
-        instruction_number += 1
-        
-        
-def display_recipe_list(recipe_list):
-    for recipe_item in recipe_list:
-        display_string = "  ".join( (str(recipe_item[0]),recipe_item[1]) )
-        click.echo(display_string)
-
-def display_shopping_list(recipe_list, shopping_list):
-    click.echo("Shopping List for:")
-    display_recipe_list(recipe_list)
-    click.echo("")
-    for ingredient in shopping_list:
-        click.echo(ingredient[0])
 
 if __name__ == "__main__":
     cli()
