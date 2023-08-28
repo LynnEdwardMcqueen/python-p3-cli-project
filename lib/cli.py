@@ -1,6 +1,6 @@
 from cmdprocessor import CmdProcessor
 import click
-from helpers import display_recipe, display_recipe_list, display_shopping_list,get_new_recipe_ingredients, get_new_recipe_instructions
+from helpers import display_recipe_full, display_recipe_list, display_shopping_list,get_new_recipe_ingredients, get_new_recipe_instructions
 
 
 cmd_processor = CmdProcessor()
@@ -73,7 +73,7 @@ def display_recipe(index):
     # Click sends all arguments as strings.  The recipe_id needs to be converted to
     # integers
     recipe_info = cmd_processor.get_selected_recipe(int(index))
-    display_recipe(recipe_info)
+    display_recipe_full(recipe_info)
 
 @click.option("-a", "--alpha", is_flag = True, show_default = True, default = 0, help = "Alphabetize the list")
 @cli.command()

@@ -1,6 +1,6 @@
 import click
 
-def display_recipe(recipe_info):
+def display_recipe_full(recipe_info):
     # Print the recipe title
     click.echo(f"Recipe Title:  {recipe_info[0][0]}")
     click.echo("\nIngredients")
